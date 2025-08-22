@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Learning Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen active">
+            <div class="header">
+                <h1 class="title">
+                    <span class="python-icon">😎</span>
+                    Brocoder 
+                </h1>
+                <p class="subtitle">Helps you to understand the bacis syntax and logi of Python Lnaguage </p>
+            </div>
+            
+            <div class="menu-buttons">
+                <button class="menu-btn primary" onclick="showDifficultySelection()">
+                    <span class="btn-icon">🎮</span>
+                    Play Game
+                </button>
+                <button class="menu-btn secondary" onclick="showInstructions()">
+                    <span class="btn-icon">📚</span>
+                    Instructions
+                </button>
+                <button class="menu-btn secondary" onclick="showProgress()">
+                    <span class="btn-icon">📊</span>
+                    View Progress
+                </button>
+            </div>
+        </div>
+
+        <!-- Difficulty Selection -->
+        <div id="difficultyScreen" class="screen">
+            <div class="header">
+                <h2>Choose Difficulty Level</h2>
+                <p>Select your Python skill level to get started</p>
+            </div>
+            
+            <div class="difficulty-buttons">
+                <div class="difficulty-card" onclick="startGame('beginner')">
+                    <h3>🌱 Beginner</h3>
+                    <p>Basic syntax, variables, and simple operations</p>
+                    <div class="level-info">12 Questions</div>
+                </div>
+                <div class="difficulty-card" onclick="startGame('intermediate')">
+                    <h3>🔥 Intermediate</h3>
+                    <p>Functions, loops, data structures</p>
+                    <div class="level-info">15 Questions</div>
+                </div>
+                <div class="difficulty-card" onclick="startGame('advanced')">
+                    <h3>⚡ Advanced</h3>
+                    <p>OOP, decorators, advanced concepts</p>
+                    <div class="level-info">15 Questions</div>
+                </div>
+            </div>
+            
+            <button class="back-btn" onclick="showStartScreen()">← Back to Menu</button>
+        </div>
+
+        <!-- Instructions Screen -->
+        <div id="instructionsScreen" class="screen">
+            <div class="header">
+                <h2>How to Play</h2>
+            </div>
+            
+            <div class="instructions-content">
+                <div class="instruction-item">
+                    <h3>🎯 Game Objective</h3>
+                    <p>Answer Python programming questions correctly to earn points and improve your skills.</p>
+                </div>
+                
+                <div class="instruction-item">
+                    <h3>📝 Question Types</h3>
+                    <ul>
+                        <li><strong>Multiple Choice:</strong> Select the correct answer from options</li>
+                        <li><strong>Fill in the Blank:</strong> Type the missing code</li>
+                        <li><strong>Debug Code:</strong> Find and fix the error</li>
+                        <li><strong>Predict Output:</strong> Determine what the code will output</li>
+                    </ul>
+                </div>
+                
+                <div class="instruction-item">
+                    <h3>🏆 Scoring System</h3>
+                    <ul>
+                        <li>Correct answer: +10 points</li>
+                        <li>Wrong answer: -2 points</li>
+                        <li>Using hint: -3 points</li>
+                        <li>Bonus for completing level: +20 points</li>
+                    </ul>
+                </div>
+                
+                <div class="instruction-item">
+                    <h3>💡 Tips</h3>
+                    <ul>
+                        <li>Use the hint button when stuck (costs 3 points)</li>
+                        <li>Replay levels to improve your score</li>
+                        <li>Read code carefully for debugging questions</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <button class="back-btn" onclick="showStartScreen()">← Back to Menu</button>
+        </div>
+
+        <!-- Progress Screen -->
+        <div id="progressScreen" class="screen">
+            <div class="header">
+                <h2>Your Progress</h2>
+            </div>
+            
+            <div class="progress-content">
+                <div class="progress-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalScore">0</div>
+                        <div class="stat-label">Total Score</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="levelsCompleted">0</div>
+                        <div class="stat-label">Levels Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="accuracy">0%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                </div>
+                
+                <div class="level-progress">
+                    <h3>Level Scores</h3>
+                    <div class="level-scores">
+                        <div class="level-score">
+                            <span>🌱 Beginner:</span>
+                            <span id="beginnerScore">Not played</span>
+                        </div>
+                        <div class="level-score">
+                            <span>🔥 Intermediate:</span>
+                            <span id="intermediateScore">Not played</span>
+                        </div>
+                        <div class="level-score">
+                            <span>⚡ Advanced:</span>
+                            <span id="advancedScore">Not played</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="back-btn" onclick="showStartScreen()">← Back to Menu</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen">
+            <div class="game-header">
+                <div class="game-info">
+                    <div class="level-indicator">
+                        <span id="currentLevel">Beginner</span>
+                        <span class="question-counter">
+                            Question <span id="currentQuestion">1</span> of <span id="totalQuestions">12</span>
+                        </span>
+                    </div>
+                    <div class="score-display">
+                        Score: <span id="gameScore">0</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question" id="questionText"></div>
+                
+                <div class="code-block" id="codeBlock" style="display: none;"></div>
+                
+                <div class="answer-options" id="answerOptions"></div>
+                
+                <div class="input-container" id="inputContainer" style="display: none;">
+                    <input type="text" id="answerInput" placeholder="Type your answer here...">
+                </div>
+                
+                <div class="question-actions">
+                    <button class="hint-btn" id="hintBtn" onclick="showHint()">
+                        💡 Hint (-3 points)
+                    </button>
+                    <button class="submit-btn" id="submitBtn" onclick="submitAnswer()">
+                        Submit Answer
+                    </button>
+                </div>
+                
+                <div class="hint-text" id="hintText" style="display: none;"></div>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+            
+            <button class="back-btn" onclick="showStartScreen()">← Back to Menu</button>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="screen">
+            <div class="results-content">
+                <h2 id="resultsTitle">Level Complete!</h2>
+                <div class="results-stats">
+                    <div class="result-item">
+                        <div class="result-label">Final Score</div>
+                        <div class="result-value" id="finalScore">0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Correct Answers</div>
+                        <div class="result-value" id="correctAnswers">0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Accuracy</div>
+                        <div class="result-value" id="finalAccuracy">0%</div>
+                    </div>
+                </div>
+                
+                <div class="results-actions">
+                    <button class="menu-btn primary" onclick="replayLevel()">
+                        🔄 Replay Level
+                    </button>
+                    <button class="menu-btn secondary" onclick="showDifficultySelection()">
+                        📚 Choose Another Level
+                    </button>
+                    <button class="menu-btn secondary" onclick="showStartScreen()">
+                        🏠 Main Menu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Animation Elements -->
+    <div class="feedback-animation" id="feedbackAnimation">
+        <div class="animation-icon"></div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
